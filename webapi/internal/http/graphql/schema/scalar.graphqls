@@ -1,0 +1,5 @@
+scalar Timestamp
+scalar Uuid
+scalar Uint
+scalar Any
+scalar Upload
