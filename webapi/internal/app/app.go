@@ -34,7 +34,7 @@ func NewApp() *App {
 	app := &App{}
 
 	db := postgres.CreatePostgreSQL(&postgres.Input{
-		DSN:             viper.GetString("DB"),
+		DSN:             viper.GetString("DB_DNS"),
 		SetMaxIdeConns:  viper.GetInt("DB_MAX_IDLE_CONNS"),
 		SetMaxOpenConns: viper.GetInt("DB_MAX_OPEN_CONNS"),
 	})

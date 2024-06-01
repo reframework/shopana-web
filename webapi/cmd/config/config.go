@@ -10,7 +10,7 @@ import (
 func init() {
 	// App
 	viper.SetDefault("API_PORT", "")
-	viper.SetDefault("APP_ENV", "production")
+	viper.SetDefault("API_ENV", "production")
 	viper.SetDefault("API_JWT_SECRET", "")
 	// DB
 	viper.SetDefault("DB_DNS", "")

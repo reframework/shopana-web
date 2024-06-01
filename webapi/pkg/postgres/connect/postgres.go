@@ -8,7 +8,7 @@ import (
 
 	// Import the postgres driver
 	_ "github.com/jackc/pgx/v5/stdlib"
-	// _ "github.com/lib/pq"
+	_ "github.com/lib/pq"
 )
 
 type Input struct {
