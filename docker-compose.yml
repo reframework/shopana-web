@@ -1,0 +1,37 @@
+version: "3.8"
+
+# This config works for running services on piplelines
+# like e2e and api tests, etc.
+# And also an example of building images for publishing
+
+services:
+  portal:
+    build:
+      context: .
+    restart: unless-stopped
+    env_file:
+      - .env
+      - .env.docker
+    ports:
+      - "8000:8000"
+    depends_on:
+      - migrate
+
+  postgres:
+    build:
+      context: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - 5432:5432
+
+  migrate:
+    build:
+      context: migrations
+    restart: on-failure
+    env_file:
+      - .env
+      - .env.docker
