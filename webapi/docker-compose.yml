@@ -1,8 +1,16 @@
 version: "3.8"
 
-# This config works for running services on piplelines
-
 services:
+  postgres:
+    extends:
+      file: docker-compose.common.yml
+      service: postgres
+
+  migrate:
+    extends:
+      file: docker-compose.common.yml
+      service: migrate
+
   api:
     build:
       context: .
@@ -13,21 +21,3 @@ services:
       - "8000:8000"
     depends_on:
       - migrate
-
-  postgres:
-    build:
-      context: postgres
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
-    ports:
-      - 5432:5432
-
-  migrate:
-    build:
-      context: migrations
-    restart: on-failure
-    env_file:
-      - .env
