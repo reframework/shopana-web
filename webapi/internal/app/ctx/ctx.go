@@ -3,7 +3,6 @@ package ctxutil
 import (
 	"context"
 
-	app "webapi/internal/app/interface"
 	"webapi/internal/entity"
 
 	"github.com/gofiber/fiber/v2"
@@ -14,14 +13,12 @@ type Key string
 const (
 	RequestIdKey Key = "request_id"
 	UserKey      Key = "current_user"
-	LoadersKey   Key = "loaders"
 	FiberCtxKey  Key = "fiber_ctx"
 )
 
 var keys = []Key{
 	RequestIdKey,
 	UserKey,
-	LoadersKey,
 	FiberCtxKey,
 }
 
@@ -64,13 +61,4 @@ func RequestId(ctx context.Context) (string, bool) {
 
 func SetRequestId(ctx context.Context, id string) context.Context {
 	return context.WithValue(ctx, UserKey, id)
-}
-
-func Loader(ctx context.Context) (app.Loader, bool) {
-	loader, ok := ctx.Value(LoadersKey).(app.Loader)
-	return loader, ok
-}
-
-func SetLoader(ctx context.Context, loader app.Loader) context.Context {
-	return context.WithValue(ctx, LoadersKey, loader)
 }
