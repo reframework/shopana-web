@@ -14,7 +14,5 @@ func (r *Resolver) Mutation() graph_gen.MutationResolver { return &mutationResol
 // Query returns graph_gen.QueryResolver implementation.
 func (r *Resolver) Query() graph_gen.QueryResolver { return &queryResolver{r} }
 
-type (
-	mutationResolver struct{ *Resolver }
-	queryResolver    struct{ *Resolver }
-)
+type mutationResolver struct{ *Resolver }
+type queryResolver struct{ *Resolver }

@@ -27,6 +27,4 @@ type SignUpInput struct {
 	Password  string `json:"password"`
 	FirstName string `json:"firstName"`
 	LastName  string `json:"lastName"`
-	Language  string `json:"language"`
-	Timezone  string `json:"timezone"`
 }

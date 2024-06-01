@@ -7,7 +7,6 @@ package resolvers
 import (
 	"context"
 	"fmt"
-
 	"webapi/internal/entity"
 	graph_gen "webapi/internal/http/graphql/generated"
 )
