@@ -1,0 +1,37 @@
+type User @goModel(model: "webapi/internal/entity.User") {
+  createdAt: Timestamp!
+  email: String!
+  firstName: String!
+  id: ID!
+  isBlocked: Boolean
+  isVerified: Boolean!
+  lastName: String!
+  phoneNumber: String
+  updatedAt: Timestamp!
+}
+
+input SignInInput {
+  email: String!
+  password: String!
+}
+
+input SignUpInput {
+  email: String!
+  password: String!
+  firstName: String!
+  lastName: String!
+}
+
+type Session {
+  user: User!
+  jwt: String!
+}
+
+extend type Mutation {
+  signIn(input: SignInInput!): Session! @goField(forceResolver: true)
+  signUp(input: SignUpInput!): Session! @goField(forceResolver: true)
+}
+
+extend type Query {
+  me: User! @goField(forceResolver: true)
+}
