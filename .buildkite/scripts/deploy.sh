@@ -8,10 +8,6 @@ mkdir -p "~/apps/$APP_ENV/db-data" # TODO: create vanila db for prod
 
 bash .buildkite/scripts/generate-env.sh
 
-echo "Generated .env file:\n=====================\n"
-cat .env
-echo "\n====================="
-
 cp -r docker-compose.yml "~/apps/$APP_ENV/app/docker-compose.yml"
 cp -r nginx/nginx.conf "~/apps/$APP_ENV/app/nginx.conf.template"
 

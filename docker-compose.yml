@@ -9,6 +9,7 @@ services:
       - .env
     volumes:
       - ./nginx.conf.template:/etc/nginx/templates/nginx.conf.template
+      - "${HOST_CMSAPI_FILES_DIR}:${NGINX_CMSAPI_FILES_DIR}:ro"
     ports:
       - "80:80"
     command: >
@@ -19,8 +20,7 @@ services:
     depends_on:
       - web-client
       - web-api
-      - cms-client
-      - cms-api
+      - cms
 
   web-client:
     image: ghcr.io/reframework/shopana-web-client:${WEBAPP_VERSION:-latest}
@@ -66,4 +66,4 @@ services:
     env_file:
       - .env
     volumes:
-      - ${HOST_DB_DATA}:/var/lib/postgresql/data
+      - "${HOST_DB_DATA}:/var/lib/postgresql/data"
