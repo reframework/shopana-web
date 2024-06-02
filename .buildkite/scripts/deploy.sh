@@ -6,7 +6,7 @@ mkdir -p "~/apps/$APP_ENV/app"
 mkdir -p "~/apps/$APP_ENV/public"
 mkdir -p "~/apps/$APP_ENV/db-data" # TODO: create vanila db for prod
 
-sh .buildkite/scripts/generate-env.sh
+bash .buildkite/scripts/generate-env.sh
 
 echo "Generated .env file:\n=====================\n"
 cat .env
