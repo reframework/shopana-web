@@ -1,0 +1,4 @@
+
+steps:
+  - label: ":docker: Build"
+    command: .buildkite/scripts/deploy.sh

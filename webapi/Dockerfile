@@ -6,9 +6,10 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 COPY ./pkg ./pkg
+COPY ./cmd ./cmd
 COPY ./internal ./internal
 
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /app/bin ./internal/cmd/main
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /app/bin ./cmd/main
 
 # Path: Dockerfile
 FROM alpine:3.18.4 AS runner
