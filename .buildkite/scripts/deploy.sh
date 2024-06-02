@@ -10,7 +10,8 @@ mkdir -p "~/apps/$APP_ENV/db-data" # TODO: create vanila db for prod
 cp -r docker-compose.yml "~/apps/$APP_ENV/app/docker-compose.yml"
 cp -r nginx/nginx.conf "~/apps/$APP_ENV/app/nginx.conf.template"
 
-cd ~/apps/$APP_ENV/app
+ls -la "~/apps/$APP_ENV/app"
+cd "~/apps/$APP_ENV/app"
 
 echo $DOCKER_LOGIN_PASSWORD | docker login ghcr.io -u reframework-bot --password-stdin
 
