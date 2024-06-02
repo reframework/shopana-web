@@ -2,14 +2,14 @@ name: Build and Publish Docker Image
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, closed]
+    types: [closed]
     branches:
       - main
 
 jobs:
   changes:
     name: Checking
-    # if: github.event.pull_request.merged != true
+    if: github.event.pull_request.merged != true
     runs-on: ubuntu-latest
     permissions:
       pull-requests: read
@@ -95,7 +95,6 @@ jobs:
           build-args: |
             NEXT_PUBLIC_WEBAPP_GA_TOKEN=${{ vars.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID }}
             NEXT_PUBLIC_WEBAPP_ROLLBAR_CLIENT_TOKEN=${{ vars.NEXT_PUBLIC_ROLLBAR_CLIENT_TOKEN }}
-
 
   publish-migration:
     name: Publish / Migration
