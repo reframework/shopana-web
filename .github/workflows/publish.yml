@@ -34,7 +34,7 @@ jobs:
               - 'client/**'
 
   publish-api:
-    name: API
+    name: Publish / API
     needs: changes
     if: needs.changes.outputs.api == 'true'
     runs-on: ubuntu-latest
@@ -64,6 +64,7 @@ jobs:
             ghcr.io/reframework/shopana-web-api:latest
 
   publish-client:
+    name: Publish / Client
     needs: changes
     if: needs.changes.outputs.client == 'true'
     runs-on: ubuntu-latest
@@ -97,7 +98,7 @@ jobs:
 
 
   publish-migration:
-    name: Migration
+    name: Publish / Migration
     needs: changes
     if: needs.changes.outputs.migrations == 'true'
     runs-on: ubuntu-latest
@@ -127,7 +128,7 @@ jobs:
             ghcr.io/reframework/shopana-platform-migration:latest
 
   publish-postgres:
-    name: Postgres
+    name: Publish / Postgres
     needs: changes
     if: needs.changes.outputs.postgres == 'true'
     runs-on: ubuntu-latest
