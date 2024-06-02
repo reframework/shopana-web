@@ -1,6 +1,8 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 
+// noop
+
 export default function Home() {
   return (
     <main className={styles.main}>

@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   nginx:
-    image: nginx:latest
+    image: nginx:${NGINX_VERSION:-latest}
     container_name: nginx
     restart: unless-stopped
     env_file:
@@ -23,26 +23,18 @@ services:
       - cms
 
   web-client:
-    image: ghcr.io/reframework/shopana-web-client:${WEBAPP_VERSION:-latest}
+    image: ghcr.io/reframework/shopana-web-client:${WEB_CLIENT_VERSION:-latest}
     restart: unless-stopped
 
   web-api:
-    image: ghcr.io/reframework/shopana-web-api:${WEBAPP_VERSION:-latest}
+    image: ghcr.io/reframework/shopana-web-api:${WEB_API_VERSION:-latest}
     restart: unless-stopped
     depends_on:
       - web-migration
       - postgres
 
-  web-migration:
-    image: ghcr.io/reframework/shopana-web-migration:latest
-    restart: on-failure
-    env_file:
-      - .env
-    depends_on:
-      - postgres
-
   cms:
-    image: ghcr.io/reframework/shopana-cms:${PORTAL_VERSION:-latest}
+    image: ghcr.io/reframework/shopana-cms:${CMS_VERSION:-latest}
     restart: unless-stopped
     env_file:
       - .env
@@ -53,15 +45,23 @@ services:
       - postgres
 
   cms-migration:
-    image: ghcr.io/reframework/shopana-cms-migration:latest
+    image: ghcr.io/reframework/shopana-cms-migration:${CMS_MIGRATION_VERSION:-latest}
     restart: on-failure
     env_file:
       - .env
     depends_on:
       - postgres
 
-  postgres:
-    image: ghcr.io/reframework/shopana-postgres:latest
+  platform-migration:
+    image: ghcr.io/reframework/shopana-platform-migration:${WEB_MIGRATION_VERSION:-latest}
+    restart: on-failure
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+
+  platform-postgres:
+    image: ghcr.io/reframework/shopana-platform-postgres:${POSTGRES_VERSION:-latest}
     restart: unless-stopped
     env_file:
       - .env

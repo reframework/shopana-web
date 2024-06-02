@@ -29,7 +29,8 @@ while IFS= read -r line || [[ -n "$line" ]]; do
     fi
 done < "$TEMPLATE_ENV_FILE"
 
+echo "==============================="
 echo ".env file created successfully."
-echo ""
+echo "==============================="
 cat .env
 echo "==============================="
