@@ -3,6 +3,15 @@ version: "3.8"
 # Start theses services for local development
 
 services:
+  webapi:
+    build:
+      context: .
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+
   postgres:
     build:
       context: postgres
@@ -22,5 +31,3 @@ services:
     restart: on-failure
     env_file:
       - .env
-    depends_on:
-      - postgres

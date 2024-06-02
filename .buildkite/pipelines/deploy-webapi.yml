@@ -1,0 +1,12 @@
+steps:
+  # Skipping checkout which is not required
+  # Since docker image has been already pushed to the registry
+  - label: Skipping checkout
+    plugins:
+      - envato/no-command#v0.1.0: ~
+      - thedyrt/skip-checkout#v0.1.1: ~
+
+  # Running script.sh
+  - label: ":docker: Deploy app"
+    command: .buildkite/scripts/deploy-app.sh
+    # TODO: inject vars

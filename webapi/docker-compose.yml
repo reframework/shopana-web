@@ -10,14 +10,13 @@ services:
     extends:
       file: docker-compose.common.yml
       service: migrate
-
-  api:
-    build:
-      context: .
-    restart: unless-stopped
-    env_file:
-      - .env
-    ports:
-      - "8000:8000"
     depends_on:
+      - postgres
+
+  webapi:
+    extends:
+      file: docker-compose.common.yml
+      service: webapi
+    depends_on:
+      - postgres
       - migrate

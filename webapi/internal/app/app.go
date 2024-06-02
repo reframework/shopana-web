@@ -59,7 +59,7 @@ func NewApp() *App {
 }
 
 func (a *App) Run() {
-	PORT := viper.GetString("PORT")
+	PORT := viper.GetString("API_PORT")
 
 	func() {
 		if err := a.server.Listen(fmt.Sprintf("%s:%s", "0.0.0.0", PORT)); err != nil {
