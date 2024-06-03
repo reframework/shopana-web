@@ -4,9 +4,6 @@ echo "Shopana: $APP_ENV"
 
 DOCKER_PASSWORD=$(buildkite-agent secret get docker_login_password)
 
-echo "Checking out"
-cd repo
-
 echo "Building"
 
 mkdir -p "~/apps/$APP_ENV/app"
