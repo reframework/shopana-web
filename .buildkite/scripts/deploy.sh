@@ -11,6 +11,12 @@ mkdir -p "$WORKDIR/public"
 mkdir -p "$WORKDIR/db-data"
 
 bash .buildkite/scripts/generate-env.sh
+status=$?
+
+if [ $status -ne 0 ]; then
+    echo "An error occurred while creating .env file. Exiting..."
+    exit $status
+fi
 
 # List of secret names
 secret_names=(
@@ -24,6 +30,12 @@ secret_names=(
 )
 
 bash .buildkite/scripts/generate-secrets.sh "${secret_names[@]}"
+status=$?
+
+if [ $status -ne 0 ]; then
+    echo "An error occurred while creating Docker secrets. Exiting..."
+    exit $status
+fi
 
 cp -r .env                 "$WORKDIR/app/.env"
 cp -r docker-compose.yml   "$WORKDIR/app/docker-compose.yml"
