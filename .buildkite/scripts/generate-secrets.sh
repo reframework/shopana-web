@@ -23,6 +23,7 @@ for secret in "$@"; do
 
     if [ -z "$secret_value" ]; then
         echo "Buildkite secret $secret is not set. Skipping..."
+        exit 1
         continue
     fi
 
