@@ -1,4 +1,13 @@
-
 steps:
+  # Skipping checkout
+  - label: Skipping checkout
+    command: echo "Skipping checkout"
+    plugins:
+      - hasura/smooth-checkout#v4.4.1:
+          skip_checkout: true
+
+    # plugins:
+    #   - thedyrt/skip-checkout#v0.1.1: ~
+
   - label: ":docker: Build"
     command: .buildkite/scripts/deploy.sh

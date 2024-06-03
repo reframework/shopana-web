@@ -6,10 +6,10 @@ services:
       file: docker-compose.common.yml
       service: postgres
 
-  migrate:
+  migrations:
     extends:
       file: docker-compose.common.yml
-      service: migrate
+      service: migrations
     depends_on:
       - postgres
 
