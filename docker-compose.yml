@@ -2,14 +2,14 @@ version: "3.8"
 
 services:
   nginx:
-    image: nginx:${NGINX_VERSION:-latest}
+    image: nginx:${VERSION_NGINX:-latest}
     container_name: nginx
     restart: unless-stopped
     env_file:
       - .env
     volumes:
       - ./nginx.conf.template:/etc/nginx/templates/nginx.conf.template
-      - "${HOST_CMSAPI_FILES_DIR}:${NGINX_CMSAPI_FILES_DIR}:ro"
+      - "${HOST_CMS_FILES_DIR}:${NGINX_CMS_FILES_DIR}:ro"
     ports:
       - "80:80"
     command: >
@@ -23,47 +23,99 @@ services:
       - cms
 
   web-client:
-    image: ghcr.io/reframework/shopana-web-client:${WEB_CLIENT_VERSION:-latest}
+    image: ghcr.io/reframework/shopana-web-client:${VERSION_WEBCLIENT:-latest}
+    environment:
+      - WEBCLIENT_ROLLBAR_SERVER_TOKEN=/run/secrets/webclient_rollbar_server_token
     restart: unless-stopped
+    env_file:
+      - .env
+    secrets:
+      - webclient_rollbar_server_token
 
   web-api:
-    image: ghcr.io/reframework/shopana-web-api:${WEB_API_VERSION:-latest}
+    image: ghcr.io/reframework/shopana-web-api:${VERSION_WEBAPI:-latest}
     restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - WEBAPI_JWT_SECRET=/run/secrets/webapi_jwt_secret
+      - WEBAPI_DB_DNS=/run/secrets/webapi_db_dns
     depends_on:
       - platform-migration
       - platform-postgres
+    secrets:
+      - webapi_jwt_secret
+      - webapi_db_dns
 
   cms:
-    image: ghcr.io/reframework/shopana-cms:${CMS_VERSION:-latest}
+    image: ghcr.io/reframework/shopana-cms:${VERSION_CMS:-latest}
     restart: unless-stopped
     env_file:
       - .env
     volumes:
-      - "${HOST_CMSAPI_FILES_DIR}:${CMSAPI_FILES_DIR}"
+      - "${HOST_CMS_FILES_DIR}:${CMS_FILES_DIR}"
     depends_on:
       - cms-migration
       - platform-postgres
+    environment:
+      - CMS_GUEST_JWT_SECRET=/run/secrets/cms_guset_jwt
+      - CMS_CUSTOMER_JWT_SECRET=/run/secrets/cms_customer_jwt
+      - CMS_TENANT_JWT_SECRET=/run/secrets/cms_tenant_jwt
+      - CMS_DB_DNS=/run/secrets/cms_db_dns
+    secrets:
+      - cms_guset_jwt
+      - cms_customer_jwt
+      - cms_tenant_jwt
+      - cms_db_dns
 
   cms-migration:
-    image: ghcr.io/reframework/shopana-cms-migration:${CMS_MIGRATION_VERSION:-latest}
+    image: ghcr.io/reframework/shopana-cms-migration:${VERSION_CMSMIGRATION:-latest}
     restart: on-failure
     env_file:
       - .env
+    environment:
+      CMS_DB_DNS: /run/secrets/webapi_db_dns
     depends_on:
       - platform-postgres
+    secrets:
+      - cms_db_dns
 
   platform-migration:
-    image: ghcr.io/reframework/shopana-platform-migration:${WEB_MIGRATION_VERSION:-latest}
+    image: ghcr.io/reframework/shopana-platform-migration:${VERSION_WEBMIGRATION:-latest}
     restart: on-failure
     env_file:
       - .env
+    environment:
+      WEBAPI_DB_DNS: /run/secrets/webapi_db_dns
     depends_on:
       - platform-postgres
+    secrets:
+      - webapi_db_dns
 
   platform-postgres:
-    image: ghcr.io/reframework/shopana-platform-postgres:${POSTGRES_VERSION:-latest}
+    image: ghcr.io/reframework/shopana-platform-postgres:${VERSION_POSTGRES:-latest}
     restart: unless-stopped
     env_file:
       - .env
+    environment:
+      WEBAPI_DB_DNS: /run/secrets/webapi_db_dns
     volumes:
       - "${HOST_DB_DATA}:/var/lib/postgresql/data"
+    secrets:
+      - webapi_db_dns
+
+secrets:
+  cms_guset_jwt:
+    external: true
+  cms_customer_jwt:
+    external: true
+  cms_tenant_jwt:
+    external: true
+  cms_db_dns:
+    external: true
+  webapi_jwt_secret:
+    external: true
+  webapi_db_dns:
+    external: true
+  webclient_rollbar_server_token:
+    external: true
