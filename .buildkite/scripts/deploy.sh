@@ -2,12 +2,9 @@ set -eo pipefail
 
 echo "Shopana: $APP_ENV"
 
-GH_PAT=$(buildkite-agent secret get gh_pat)
 DOCKER_PASSWORD=$(buildkite-agent secret get docker_login_password)
 
 echo "Checking out"
-
-git clone https://reframework-bot:${GH_PAT}@github.com/reframework/shopana-web.git repo
 cd repo
 
 echo "Building"
