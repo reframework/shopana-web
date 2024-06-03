@@ -1,4 +1,4 @@
-set -eo pipefail
+#!/bin/bash
 
 echo "Shopana: $APP_ENV"
 
